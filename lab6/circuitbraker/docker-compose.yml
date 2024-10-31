@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  shopping-cart-service:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - payment-service
+      - error-pages
+
+  payment-service:
+    image: tarampampam/error-pages
+    environment:
+      ERROR_CODE: "500"  # Configure the error code to serve
+
+  error-pages:
+    image: tarampampam/error-pages
+    environment:
+      TEMPLATE_NAME: "lost-in-space"
+      SHOW_DETAILS: true
+    ports:
+      - "8080:8080"
